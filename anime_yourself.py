@@ -6,7 +6,6 @@ This bot uses all options provided by the Poe protocol.
 from __future__ import annotations
 
 import asyncio
-import json
 from typing import AsyncIterable
 
 from fastapi_poe import PoeBot, run
@@ -17,16 +16,17 @@ from fastapi_poe.types import (
     SettingsRequest,
     SettingsResponse,
 )
-import os
 import replicate
 import re
-import random
 import textwrap
 import asyncio
 from sse_starlette.sse import ServerSentEvent
 
 SETTINGS = SettingsResponse(
-    context_clear_window_secs=60 * 60, allow_user_context_clear=True
+    context_clear_window_secs=60 * 60,
+    allow_user_context_clear=True,
+    allow_attachments=True,
+    introduction_message="This is an intro message."
 )
 
 MODEL_URL = "mcai/dreamshaper-v6-img2img:c7959eb3a86c09b449dacc11ce8bba295fda466fc6935ab8709e35f4f48c980c"
@@ -68,10 +68,10 @@ floating limbs, disconnected limbs, malformed hands, extra fingers, poorly drawn
 
 def error_message():
     msg = textwrap.dedent(f"""
-    Sorry, I cannot parse your input. Please try again and make sure your input has the format:
+    Sorry, I cannot parse your input. Please try again and make sure your input include:
 
     ```python
-    image: "<image_public_url>"
+    image: "<image_public_url>"  # or attach an image of yourself via file upload
     prompt: (Optional) "<your prompt here>" #no worry, we will generate an anime of you to start
     ```
 
@@ -97,7 +97,8 @@ def _get_complete_message(second, input_url, output_url):
 class AnimeYourself(PoeBot):
     async def get_response(self, query: QueryRequest) -> AsyncIterable[ServerSentEvent]:
         """Return an async iterator of events to send to the user."""
-        last_message = query.query[-1].content.lower()
+        last_query = query.query[-1]
+        last_message = last_query.content.lower()
         response_content_type: ContentType = ("text/markdown")
         yield self.meta_event(
             content_type=response_content_type,
@@ -107,7 +108,15 @@ class AnimeYourself(PoeBot):
         )
 
         input_dict = parse_text(last_message)
-        if "image" not in input_dict:
+        image_url = input_dict['image'] if 'image' in input_dict else None
+        attachments = last_query.attachments
+        if not image_url:
+            for attachemnt in attachments:
+                if attachemnt.content_type.startswith("image/"):
+                    image_url = attachemnt.url
+                    break
+
+        if image_url is None:
             yield self.text_event(error_message())
         else:
             ### call the model to get results:
