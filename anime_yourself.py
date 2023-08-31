@@ -27,9 +27,9 @@ SETTINGS = SettingsResponse(
     allow_user_context_clear=True,
     allow_attachments=True,
     introduction_message=(
-        "Hi, I am AnimeYourself. \nPlease upload a photo of yourself or provide the image URL in the format of "
-        "***image: 'my_image_url'***, and I can turn your selfie/portrait into beautiful anime character.\n\n"
-        "You can also provide prompt instruction in the format of ***prompt: portrait closeup***, tailoring to your preferences."
+        "Please upload a photo of yourself or provide the image URL in the format of ***image: 'my_image_url'***,"
+        " and I can turn your selfie/portrait into beautiful anime character.\n\nYou can also provide "
+        "prompt instruction in the format of ***prompt: portrait closeup***, tailoring to your preferences."
     )
 )
 
