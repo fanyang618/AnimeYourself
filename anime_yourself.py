@@ -190,12 +190,7 @@ class AnimeYourself(PoeBot):
 
     async def get_settings(self, settings: SettingsRequest) -> SettingsResponse:
         """Return the settings for this bot."""
-        return SettingsResponse(
-            context_clear_window_secs=60 * 60,
-            allow_user_context_clear=True,
-            allow_attachments=True,
-            introduction_message="This is an intro message."
-        )
+        return SETTINGS
 
 
 if __name__ == "__main__":
