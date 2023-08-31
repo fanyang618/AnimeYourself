@@ -11,7 +11,7 @@ image = Image.debian_slim().pip_install_from_requirements(
 stub = Stub("animeyourself")
 
 
-@stub.function(image=image, secret=modal.Secret.from_name("my-replicate-key"))
+@stub.function(image=image, secret=modal.Secret.from_name("anime_yourself_secret"))
 @asgi_app()
 def fastapi_app():
     bot = AnimeYourself()
