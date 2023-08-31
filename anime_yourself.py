@@ -26,7 +26,10 @@ SETTINGS = SettingsResponse(
     context_clear_window_secs=60 * 60,
     allow_user_context_clear=True,
     allow_attachments=True,
-    introduction_message="This is an intro message."
+    introduction_message=(
+        "Hi, I am AnimeYourself. Please upload a photo of yourself or provide the image URL in the format of "
+        "image: 'my_image_url', and I can turn your selfie/portrait into beautiful anime character."
+    )
 )
 
 MODEL_URL = "mcai/dreamshaper-v6-img2img:c7959eb3a86c09b449dacc11ce8bba295fda466fc6935ab8709e35f4f48c980c"
