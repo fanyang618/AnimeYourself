@@ -40,12 +40,12 @@ _WAIT_TIMEOUT_S = 1
 
 def parse_text(txt):
     # Define a regular expression to match the fields and their values
-    pattern = re.compile(r'(image|prompt):\s*"([^"]+)"')
+    pattern = re.compile(r'(image|prompt):\s*"([^"]+)"', re.IGNORECASE)
     matches = pattern.findall(txt)
     result = {}
 
     for field, value in matches:
-        result[field] = value
+        result[field.lower()] = value
     return result
 
 core_positive_prompt = """
