@@ -75,7 +75,7 @@ def error_message():
     Sorry, I cannot parse your input. Please try again and make sure your input include:
 
     ```python
-    image: "<image_public_url>"  # or attach an image of yourself via file upload
+    image: "<public_image_url>"  # or attach an image of yourself via file upload
     prompt: (Optional) "<your prompt here>" #no worry, we will generate an anime of you to start
     ```
 
